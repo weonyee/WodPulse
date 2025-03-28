@@ -7,44 +7,66 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            /* padding: 0; */
             background-color: #f4f4f4;
-            padding: 30px;
+        }
+
+        .content {
+            padding: 20px;
         }
 
         h2 {
             color: #333;
         }
 
+        form input, form textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        form button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #444;
+        }
+
+        .delete-btn {
+            color: red;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .delete-btn:hover {
+            background-color: #f2d1d1;
+        }
+
         table {
             width: 100%;
-            border-collapse: collapse;
-            background-color: #fff;
+            border-collapse: collapse;  /* 테이블 셀 간격 제거 */
+            margin-bottom: 20px;
         }
 
         th, td {
+            padding: 10px;
             border: 1px solid #ccc;
-            padding: 12px;
             text-align: center;
         }
 
         th {
-            background-color: #e0e0e0;
+            background-color: #f4f4f4;
         }
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        button {
-            background-color: #333;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #555;
-        }
     </style>
 </head>
 <body>
@@ -65,6 +87,7 @@
                 <th>메모</th>
             </tr>
         </thead>
+
         <tbody>
             {% for record in records %}
                 <tr>
@@ -84,8 +107,9 @@
         <button>1RM 기록 입력 페이지로 돌아가기</button>
     </a>
     
+    <br>
 
     {% include 'footer.html' %}
-    
+
 </body>
 </html>

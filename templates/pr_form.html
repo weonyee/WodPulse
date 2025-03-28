@@ -7,21 +7,32 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            /* padding: 0; */
             background-color: #f4f4f4;
+        }
+
+        .content {
             padding: 20px;
         }
 
-        form input, form select, form button, form textarea {
+        h2 {
+            color: #333;
+        }
+
+        form input, form textarea {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             margin: 5px 0;
             border-radius: 4px;
             border: 1px solid #ccc;
         }
 
         form button {
+            padding: 10px 20px;
             background-color: #333;
             color: white;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
         }
 
@@ -29,15 +40,25 @@
             background-color: #444;
         }
 
+        .delete-btn {
+            color: red;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .delete-btn:hover {
+            background-color: #f2d1d1;
+        }
+
         .result {
             background-color: #f9f9f9;
             border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
-
-        .result h3 {
-            margin-top: 0;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 45%;  /* 두 박스가 가로로 나란히 배치되도록 */
         }
     </style>
 </head>
@@ -54,14 +75,12 @@
         </a>
     </div>
     
-
-
     
-    {% if date and weight and memo and exercise_name %}
+    {% if date and weight and memo and exercise %}
         <div class="result">
             <h3>입력한 내용</h3>
             <p><strong>날짜:</strong> {{ date }}</p>
-            <p><strong>운동:</strong> {{ exercise_name }}</p>
+            <p><strong>운동:</strong> {{ exercise }}</p>
             <p><strong>무게:</strong> {{ weight }}kg</p>
             <p><strong>메모:</strong> {{ memo }}</p>
         </div>
@@ -71,7 +90,7 @@
         <!-- 날짜 입력 -->
         <label for="date">날짜:</label>
         <input type="date" name="date" required>
-
+        <br><br>
         <!-- 운동 종류 -->
         <label for="exercise">운동 종류:</label>
         <select name="exercise" required>
@@ -79,11 +98,11 @@
                 <option value="{{ ex }}">{{ ex }}</option>
             {% endfor %}
         </select>
-
+        <br><br>
         <!-- 무게 입력 -->
         <label for="weight">무게:</label>
         <input type="number" name="weight" step="0.1" required>
-
+        <br><br>
         <!-- 단위 선택 -->
         <label for="unit">단위:</label>
         <select name="unit" required>
@@ -91,7 +110,7 @@
                 <option value="{{ u }}">{{ u }}</option>
             {% endfor %}
         </select>
-
+        <br><br>
         <!-- 메모 -->
         <label for="memo">메모:</label>
         <textarea name="memo" rows="4" required></textarea>
