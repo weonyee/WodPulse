@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WODPulse</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        form button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #444;
+        }
+
+        .delete-btn {
+            color: red;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .delete-btn:hover {
+            background-color: #f2d1d1;
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'header.html' %}
+
+    <div class="content">
+        <h1>✌🥵</h1>
+        <form method="POST" action="/save">
+            <label> 날짜: </label><br>
+            <input type="date" name="date" required> <br> <br>
+
+            <label> 제목: </label><br>
+            <input type="text" name="title" required> <br> <br>
+
+            <label> 오늘의 wod: </label><br>
+            <input type="text" name="wod" required> <br> <br>
+
+            <label> 별점(⭐ - ⭐⭐⭐⭐⭐): </label><br>
+            <input type="number" name="scale" min="1" max="5" step="0.1"> <br> <br>
+
+            <label> 메모: </label><br>
+            <textarea name="memo" rows="4" cols="30" required></textarea> <br> <br>
+
+            <button type="submit"> 기록 저장하기 </button>
+        </form>
+
+        <hr>
+
+        <h1><a href="{{ url_for('record_list') }}">wod 기록 리스트 </a></h1>
+        <ul>
+            {% for record in records %}
+                <li> 
+                    <strong>✅ {{record.title}}</strong> - {{ record.date }}<br>
+                    <span>⭐ {{ record.scale }}</span><br>
+                    <a href="{{ url_for('record', id=record.id) }}">자세히 보기</a>  <!-- 상세 페이지로 이동 -->
+
+                    <!-- 삭제 폼 -->
+                    <form action="{{ url_for('delete', id=record.id) }}" method="POST" style="display:inline;">
+                        <input type="hidden" name="_method" value="DELETE">  <!-- POST로 DELETE 처리 -->
+                        <button type="submit" style="color:red; background:none; border:none; text-decoration:underline;">삭제</button>
+                    </form>
+                    <br><br>
+                </li>
+            {% endfor %}
+        </ul>
+    
+    </div>
+
+    {% include 'footer.html' %}
+
+</body>
+</html>

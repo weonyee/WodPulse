@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1RM 기록 입력</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        form input, form select, form button, form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        form button {
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #444;
+        }
+
+        .result {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .result h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>1RM 기록 입력</h1>
+    
+    {% if date and weight and memo and exercise_name %}
+        <div class="result">
+            <h3>입력한 내용</h3>
+            <p><strong>날짜:</strong> {{ date }}</p>
+            <p><strong>운동:</strong> {{ exercise_name }}</p>
+            <p><strong>무게:</strong> {{ weight }}kg</p>
+            <p><strong>메모:</strong> {{ memo }}</p>
+        </div>
+    {% endif %}
+
+    <form action="/pr" method="POST">
+        <!-- 날짜 입력 -->
+        <label for="date">날짜:</label>
+        <input type="date" name="date" required>
+
+        <!-- 운동 종류 -->
+        <label for="exercise">운동 종류:</label>
+        <select name="exercise" required>
+            {% for ex in exercises %}
+                <option value="{{ ex }}">{{ ex }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- 무게 입력 -->
+        <label for="weight">무게:</label>
+        <input type="number" name="weight" step="0.1" required>
+
+        <!-- 단위 선택 -->
+        <label for="unit">단위:</label>
+        <select name="unit" required>
+            {% for u in units %}
+                <option value="{{ u }}">{{ u }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- 메모 -->
+        <label for="memo">메모:</label>
+        <textarea name="memo" rows="4" required></textarea>
+
+        <!-- 버튼 -->
+        <button type="submit">기록 저장하기</button>
+
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WODPulse - {{ record.title }}</title>
+    <style>
+        /* 기존 스타일 */
+    </style>
+</head>
+<body>
+
+    {% include 'header.html' %}
+
+    <div class="content">
+        <h2>{{ record.title }}</h2>
+
+        <p><strong>📆 날짜:</strong> {{ record.date }}</p>
+        <p><strong>⭐ {{ record.scale }}</strong></p>
+        <p><strong>WOD:</strong> {{ record.wod }}</p>
+        <p><strong>📜 </strong> {{ record.memo }}</p>
+
+        <!-- <a href="{{ url_for('index') }}">🏠 Home</a> -->
+    </div>
+
+    {% include 'footer.html' %}
+
+</body>
+</html>

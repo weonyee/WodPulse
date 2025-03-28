@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>와드 기록 리스트</title>
+    <style>
+        /* 기존 스타일 */
+    </style>
+</head>
+<body>
+
+    {% include 'header.html' %}
+
+    <div class="content">
+        <h1>🚒 Wodlog -- 🚒</h1>
+        <ul>
+            {% for record in records %}
+                <li>
+                    <strong>{{ record.title }}</strong> - {{ record.date }}<br>
+                    <span>⭐ {{ record.scale }}</span><br>
+                    <a href="{{ url_for('record', id=record.id) }}">자세히 보기</a> <!-- 상세 페이지로 이동 -->
+                    <form action="{{ url_for('delete', id=record.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" style="color:red; background:none; border:none; text-decoration:underline;">삭제</button>
+                    </form>
+
+                    <br><br>
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+
+    {% include 'footer.html' %}
+
+</body>
+</html>
