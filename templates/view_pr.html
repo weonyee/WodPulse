@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1RM 기록 보기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 30px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e0e0e0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'header.html' %}
+
+    <h1>🏋️‍♀️ 1RM 기록</h1>
+
+    <h3>📋 작성한 기록 리스트입니다.</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>날짜</th>
+                <th>운동 종류</th>
+                <th>무게</th>
+                <th>단위</th>
+                <th>kg 환산</th>
+                <th>메모</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.exercise }}</td>
+                    <td>{{ record.weight }}</td>
+                    <td>{{ record.unit }}</td>
+                    <td>{{ '%.1f' % record.weight_in_kg }} kg</td>
+                    <td>{{ record.memo }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/pr" style="text-decoration: none; text-align: right; display: block;">
+        <button>1RM 기록 입력 페이지로 돌아가기</button>
+    </a>
+    
+
+    {% include 'footer.html' %}
+    
+</body>
+</html>

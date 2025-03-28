@@ -25,35 +25,17 @@ class WodRecord(db.Model):
     def __repr__(self):
         return f"WodRecord('{self.date}', '{self.wod}')"
 
-# 운동 종류 모델
-class Exercise(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False, unique=True)
-
-    def __repr__(self):
-        return f"<Exercise '{self.name}'>"
-
 class Record(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.String(100), nullable=False)
     weight = db.Column(db.Float, nullable=False)
-    weight_in_kg = db.Column(db.Float, nullable=False) 
+    weight_in_kg = db.Column(db.Float, nullable=False)
     memo = db.Column(db.String(500), nullable=True)
     unit = db.Column(db.String(10), nullable=False)
-
-    exercise_id = db.Column(db.Integer, db.ForeignKey('exercise.id'), nullable=False)  # Exercise 테이블과 외래키 관계 설정
-    exercise = db.relationship('Exercise', backref='records')  # 관계 설정
-
-    def __init__(self, date, weight, weight_in_kg, memo, unit, exercise_id):
-        self.date = date
-        self.weight = weight
-        self.weight_in_kg = weight_in_kg
-        self.memo = memo
-        self.unit = unit
-        self.exercise_id = exercise_id
+    exercise = db.Column(db.String(100), nullable=False)  # 운동 종류를 문자열로 저장
 
     def __repr__(self):
-        return f"<Record {self.date} - {self.weight}kg - {self.exercise.name}>"
+        return f"<Record {self.date} - {self.weight}kg - {self.exercise}>"
 
 
 # db 생성
@@ -102,19 +84,19 @@ def record(id):
     return render_template('record_detail.html', record=record)
 
 # 기록 삭제 라우트
-@app.route('/delete/<int:id>', methods=['GET'])
+@app.route('/delete/<int:id>', methods=['POST'])
 def delete(id):
     record = WodRecord.query.get_or_404(id)
     db.session.delete(record)
     db.session.commit()
 
-    return redirect('/')  # 삭제 후 홈으로 리다이렉트
+    return redirect('/records')  # 삭제 후 홈으로 리다이렉트
 
 # 1rm 기록하기
 @app.route('/pr', methods=['GET', 'POST'])
 def save_pr():
     predefined_exercises = [
-        'back squat', 'front squat', 'overhead squat',
+        'back squat', 'front squat', 'overhead squat', 'deadlift',
         'shoulder press', 'push press', 'clean',
         'power clean', 'clean & jerk', 'snatch', 'power snatch'
     ]
@@ -123,7 +105,7 @@ def save_pr():
 
     if request.method == 'POST':
         date = request.form['date']
-        exercise_name = request.form['exercise']
+        exercise = request.form['exercise']
         weight = request.form['weight']
         unit = request.form['unit']
         memo = request.form['memo']
@@ -132,11 +114,11 @@ def save_pr():
 
         new_record = Record(
             date=date,
+            exercise=exercise,  # 운동 종류를 정확하게 저장
             weight=weight,
             weight_in_kg=weight_in_kg,
-            memo=memo,
             unit=unit,
-            exercise_id=0
+            memo=memo
         )
         db.session.add(new_record)
         db.session.commit()
@@ -144,7 +126,7 @@ def save_pr():
         return render_template(
             'pr_form.html',
             date=date,
-            exercise_name=exercise_name,
+            exercise=exercise,
             weight=weight,
             weight_in_kg=weight_in_kg,
             memo=memo,
@@ -155,15 +137,12 @@ def save_pr():
     return render_template('pr_form.html', exercises=predefined_exercises, units=units)
 
 
-@app.route('/pr_records')
-def view_pr_records():
-    records = Record.query.all()
-    return render_template('view_pr_records.html', records=records)
-
-@app.route('/record_list')
-def show_record_list():  # 기존 함수 이름에서 변경
-    # 기존 로직
-    return render_template('record_list.html', records=records)
+# 새로운 라우트 추가
+@app.route('/pr/view')
+def view_pr():
+    # 모든 기록을 가져와서 전달
+    records = Record.query.order_by(Record.date.desc()).all()  # 최신 순으로 정렬
+    return render_template('view_pr.html', records=records)
 
 
 

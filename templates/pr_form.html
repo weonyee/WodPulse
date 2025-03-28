@@ -43,7 +43,19 @@
 </head>
 <body>
 
-    <h1>1RM 기록 입력</h1>
+    {% include 'header.html' %}
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>1RM 기록 입력</h1>
+    
+        <!-- 새로 추가한 페이지로 이동하는 버튼 -->
+        <a href="/pr/view">
+            <button>모든 1RM 기록 보기</button>
+        </a>
+    </div>
+    
+
+
     
     {% if date and weight and memo and exercise_name %}
         <div class="result">
@@ -88,6 +100,9 @@
         <button type="submit">기록 저장하기</button>
 
     </form>
+    <br>
 
+    {% include 'footer.html' %}
+    
 </body>
 </html>

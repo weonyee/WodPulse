@@ -1,0 +1,9 @@
+header h1 {
+    font-size: 24px; /* 일관된 폰트 크기 */
+    margin: 0; /* 여백을 제거 */
+}
+
+header {
+    padding: 15px 0; /* 일정한 패딩 설정 */
+    height: 80px; /* 고정된 높이 */
+}
